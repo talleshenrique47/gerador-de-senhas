@@ -32,28 +32,39 @@ btnGerar.addEventListener("click", () => {
 })
 
 const generatePassword = (
-    hasNumers,
+    hasNumbers,
     hasSymbols,
     hasLowercase,
     hasUppercase,
-    Length
+    length
 ) => {
     const newArray = [
-        ...(hasNumers ? numbers : []),
+        ...(hasNumbers ? numbers : []),
         ...(hasSymbols ? symbols : []),
         ...(hasLowercase ? LowercaseCaracters : []),
         ...(hasUppercase ? UppercaseCaracters : []),
     ];
 
-    if (newArray.length == 0) return;
+    if (newArray.length === 0) return;
 
+    // Pelo menos um caractere de cada categoria
     let password = "";
 
-    for (let i = 0; i < Length; i++) {
+    password += hasNumbers ? getRandomElement(numbers) : "";
+    password += hasSymbols ? getRandomElement(symbols) : "";
+    password += hasLowercase ? getRandomElement(LowercaseCaracters) : "";
+    password += hasUppercase ? getRandomElement(UppercaseCaracters) : "";
+
+    // Preencher o restante da senha com caracteres aleatórios
+    for (let i = password.length; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * newArray.length);
         password += newArray[randomIndex];
     }
 
     passInput.value = password;
+};
 
+const getRandomElement = (array) => {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];    
 };
